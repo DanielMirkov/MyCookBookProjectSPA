@@ -1,6 +1,14 @@
-import { showDetails } from './details.js';
+import { showDetails } from './details.js'
 
+async function getRecipeById(id) {
+
+    const response = await fetch('http://localhost:3030/data/recipes/' + id);
+    const recipe = await response.json();
+
+    return recipe;
+}
 async function onSubmit(data) {
+    const recipeId = data.id;
     const body = JSON.stringify({
         name: data.name,
         img: data.img,
@@ -14,8 +22,8 @@ async function onSubmit(data) {
     }
 
     try {
-        const response = await fetch('http://localhost:3030/data/recipes', {
-            method: 'post',
+        const response = await fetch('http://localhost:3030/data/recipes/' + recipeId, {
+            method: 'put',
             headers: {
                 'Content-Type': 'application/json',
                 'X-Authorization': token
@@ -24,8 +32,7 @@ async function onSubmit(data) {
         });
 
         if (response.status == 200) {
-            const recipe = await response.json();
-            showDetails(recipe._id);
+            showDetails(recipeId);
         } else {
             throw new Error(await response.json());
         }
@@ -33,13 +40,12 @@ async function onSubmit(data) {
         console.error(err.message);
     }
 }
-
 let main;
 let section;
 let setActiveNav;
 
 
-export function setupCreate(mainTarget, sectionTarget, setActiveNavCb) {
+export function setupEdit(mainTarget, sectionTarget, setActiveNavCb) {
 
     main = mainTarget;
     section = sectionTarget;
@@ -57,8 +63,14 @@ export function setupCreate(mainTarget, sectionTarget, setActiveNavCb) {
 
 }
 
-export function showCreate() {
-    setActiveNav('createLink');
+export async function showEdit(id) {
+    setActiveNav();
     main.innerHTML = '';
     main.appendChild(section);
+    const recipe = await getRecipeById(id);
+    section.querySelector('[name="id"]').value = id;
+    section.querySelector('[name="name"]').value = recipe.name;
+    section.querySelector('[name="img"]').value = recipe.img;
+    section.querySelector('[name="ingredients"]').value = recipe.ingredients.join('\n');
+    section.querySelector('[name="steps"]').value = recipe.steps.join('\n');
 }

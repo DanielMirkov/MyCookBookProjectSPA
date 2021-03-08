@@ -1,3 +1,6 @@
+import { showCatalog } from './catalog.js';
+
+
 async function onSubmit(data) {
     if (data.password != data.rePass) {
         return console.error('Passwords don\'t match');
@@ -19,7 +22,13 @@ async function onSubmit(data) {
         const data = await response.json();
         if (response.status == 200) {
             sessionStorage.setItem('authToken', data.accessToken);
-            onSucccess();
+            sessionStorage.setItem('userId', data._id);
+            sessionStorage.setItem('email', data.email);
+
+            document.getElementById('user').style.display = 'inline-block';
+            document.getElementById('guest').style.display = 'none';
+
+            showCatalog();
         } else {
             throw new Error(data.message);
         }
@@ -30,14 +39,14 @@ async function onSubmit(data) {
 
 let main;
 let section;
-let onSucccess;
+let setActiveNav;
 
 
-export function setupRegister(mainTarget, sectionTarget, onSucccessTarget) {
+export function setupRegister(mainTarget, sectionTarget, setActiveNavCb) {
 
     main = mainTarget;
     section = sectionTarget;
-    onSucccess = onSucccessTarget;
+    setActiveNav = setActiveNavCb;
 
     const form = section.querySelector('form');
 
@@ -51,6 +60,7 @@ export function setupRegister(mainTarget, sectionTarget, onSucccessTarget) {
 }
 
 export function showRegister() {
+    setActiveNav('registerLink');
     main.innerHTML = '';
     main.appendChild(section);
 }

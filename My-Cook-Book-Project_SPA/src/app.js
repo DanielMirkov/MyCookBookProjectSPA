@@ -2,6 +2,8 @@ import { setupCatalog, showCatalog } from './catalog.js';
 import { setupLogin, showLogin } from './login.js';
 import { setupRegister, showRegister } from './register.js';
 import { setupCreate, showCreate } from './create.js';
+import { setupDetails } from './details.js';
+import { setupEdit } from './edit.js';
 
 main();
 
@@ -13,6 +15,8 @@ function main() {
     const loginSection = document.getElementById('loginSection');
     const registerSection = document.getElementById('registerSection');
     const createSection = document.getElementById('createSection');
+    const detailsSection = document.getElementById('detailsSection');
+    const editSection = document.getElementById('editSection');
 
     const links = {
         'catalogLink': showCatalog,
@@ -21,19 +25,12 @@ function main() {
         'createLink': showCreate,
     }
 
-    setupCatalog(main, catalogSection);
-    setupLogin(main, loginSection, () => {
-        setUserNav();
-        showCatalog();
-        setActiveNav('catalogLink');
-    });
-    setupRegister(main, registerSection, () => {
-        setUserNav();
-        showCatalog();
-        setActiveNav('catalogLink');
-    });
-    setupCreate(main, createSection, () => { showCatalog();
-        setActiveNav('catalogLink'); });
+    setupCatalog(main, catalogSection, setActiveNav);
+    setupLogin(main, loginSection, setActiveNav);
+    setupRegister(main, registerSection, setActiveNav);
+    setupCreate(main, createSection, setActiveNav);
+    setupDetails(main, detailsSection, setActiveNav);
+    setupEdit(main, editSection, setActiveNav);
 
     setupNavigation();
     //start AppView
@@ -51,17 +48,15 @@ function main() {
     }
 
     function setupNavigation() {
-
+        document.getElementById('logoutBtn').addEventListener('click', logout);
         nav.addEventListener('click', (ev) => {
             // ev.preventDefault();
             if (ev.target.tagName === "A") {
                 const view = links[ev.target.id];
                 if (typeof view == 'function') {
                     ev.preventDefault();
-                    setActiveNav(ev.target.id);
                     view();
                 }
-                console.log(ev.target.id);
             }
         });
     }
@@ -70,7 +65,7 @@ function main() {
         if (sessionStorage.getItem('authToken') != null) {
             document.getElementById('user').style.display = 'inline-block';
             document.getElementById('guest').style.display = 'none';
-            document.getElementById('logoutBtn').addEventListener('click', logout);
+
         } else {
             document.getElementById('guest').style.display = 'inline-block';
             document.getElementById('user').style.display = 'none';
@@ -86,6 +81,8 @@ function main() {
         });
         if (response.status == 200) {
             sessionStorage.removeItem('authToken');
+            sessionStorage.removeItem('userId');
+            sessionStorage.removeItem('email');
             setUserNav();
             showCatalog();
         } else {
