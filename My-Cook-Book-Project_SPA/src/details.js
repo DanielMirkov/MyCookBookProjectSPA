@@ -51,11 +51,10 @@ async function onDelete(id) {
                 headers: {
                     'X-Authorization': token
                 },
-                body
             });
 
             if (response.status == 200) {
-                section.innerHTML = '<article><h2>Recipe deletes</h2></article>';
+                section.innerHTML = '<article><h2>Recipe deleted</h2></article>';
             } else {
                 throw new Error(await response.json());
             }
