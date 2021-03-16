@@ -10,12 +10,12 @@ import { setupDetails } from './views/details.js';
 import { setupEdit } from './views/edit.js';
 
 
-window.addEventListener('load', async () => {
+window.addEventListener('load', async() => {
     const main = document.querySelector('main');
     const navbar = document.querySelector('nav');
     const navigation = createNav(main, navbar);
 
-    navigation.registerView('home', document.getElementById('home'), setupHome);
+    navigation.registerView('home', null, setupHome);
     navigation.registerView('catalog', document.getElementById('catalog'), setupCatalog, 'catalogLink');
     navigation.registerView('details', document.getElementById('details'), setupDetails);
     navigation.registerView('login', document.getElementById('login'), setupLogin, 'loginLink');

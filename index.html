@@ -7,12 +7,15 @@
     <link rel="stylesheet" href="static/site.css">
     <link rel="stylesheet" href="static/recipe.css">
     <link rel="stylesheet" href="static/form.css">
-    <script type="module" src="/src/app.js"></script>
+    <script src="/src/app.js" type="module"></script>
 </head>
 
 <body>
+
     <header>
-        <h1>My Cookbook</h1>
+        <h1>
+            <a href="/"><img src="assets/logo.png">My Cookbook</a>
+        </h1>
         <nav>
             <a id="catalogLink" href="index.html" class="active">Catalog</a>
             <div id="user">
@@ -25,14 +28,20 @@
             </div>
         </nav>
     </header>
+
     <main>
+
     </main>
 
-    <div id='views'>
-        <section id="catalogSection">
+
+    <div id="views">
+
+
+        <section id="catalog">
             <p style="color: white">Loading...</p>
         </section>
-        <section id="loginSection">
+
+        <section id="login">
             <article>
                 <h2>Login</h2>
                 <form>
@@ -43,7 +52,7 @@
             </article>
         </section>
 
-        <section id="registerSection">
+        <section id="register">
             <article>
                 <h2>Register</h2>
                 <form>
@@ -54,19 +63,42 @@
                 </form>
             </article>
         </section>
-        <section id="createSection">
+
+        <section id="create">
             <article>
                 <h2>New Recipe</h2>
                 <form>
                     <label>Name: <input type="text" name="name" placeholder="Recipe name"></label>
                     <label>Image: <input type="text" name="img" placeholder="Image URL"></label>
-                    <label class="ml">Ingredients: <textarea name="ingredients" placeholder="Enter ingredients on separate lines"></textarea></label>
-                    <label class="ml">Preparation: <textarea name="steps" placeholder="Enter preparation steps on separate lines"></textarea></label>
+                    <label class="ml">Ingredients: <textarea name="ingredients"
+                            placeholder="Enter ingredients on separate lines"></textarea></label>
+                    <label class="ml">Preparation: <textarea name="steps"
+                            placeholder="Enter preparation steps on separate lines"></textarea></label>
                     <input type="submit" value="Create Recipe">
                 </form>
             </article>
         </section>
+
+        <section id="details">
+            <p style="color: white">Loading...</p>
+        </section>
+
+        <section id="edit">
+            <article>
+                <h2>Edit Recipe</h2>
+                <form>
+                    <label>Name: <input type="text" name="name" placeholder="Recipe name"></label>
+                    <label>Image: <input type="text" name="img" placeholder="Image URL"></label>
+                    <label class="ml">Ingredients: <textarea name="ingredients"
+                            placeholder="Enter ingredients on separate lines"></textarea></label>
+                    <label class="ml">Preparation: <textarea name="steps"
+                            placeholder="Enter preparation steps on separate lines"></textarea></label>
+                    <input type="submit" value="Update Recipe">
+                </form>
+            </article>
+        </section>
     </div>
+
 </body>
 
 </html>
